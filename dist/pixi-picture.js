@@ -295,6 +295,41 @@ var pixi_picture;
 })(pixi_picture || (pixi_picture = {}));
 var pixi_picture;
 (function (pixi_picture) {
+    var Mesh = (function (_super) {
+        __extends(Mesh, _super);
+        function Mesh() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Mesh.prototype._render = function (renderer) {
+            var texture = this._texture;
+            if (!texture || !texture.valid) {
+                return;
+            }
+            var blendFilterArray = pixi_picture.getBlendFilterArray(this.blendMode);
+            if (blendFilterArray) {
+                renderer.batch.flush();
+                if (!renderer.filter.pushWithCheck(this, blendFilterArray)) {
+                    return;
+                }
+            }
+            var vertices = this.verticesBuffer.data;
+            if (true) {
+                this._renderToBatch(renderer);
+            }
+            else {
+                this._renderDefault(renderer);
+            }
+            if (blendFilterArray) {
+                renderer.batch.flush();
+                renderer.filter.pop();
+            }
+        };
+        return Mesh;
+    }(PIXI.Mesh));
+    pixi_picture.Mesh = Mesh;
+})(pixi_picture || (pixi_picture = {}));
+var pixi_picture;
+(function (pixi_picture) {
     var blends;
     (function (blends) {
         blends.NPM_BLEND = "if (b_src.a == 0.0) {\n    gl_FragColor = vec4(0, 0, 0, 0);\n    return;\n}\nvec3 Cb = b_src.rgb / b_src.a, Cs;\nif (b_dest.a > 0.0) {\n    Cs = b_dest.rgb / b_dest.a;\n}\n%NPM_BLEND%\nb_res.a = b_src.a + b_dest.a * (1.0-b_src.a);\nb_res.rgb = (1.0 - b_src.a) * Cs + b_src.a * B;\nb_res.rgb *= b_res.a;\n";

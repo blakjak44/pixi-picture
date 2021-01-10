@@ -58,12 +58,13 @@ namespace pixi_picture {
 
                 // set properties for batching..
                 // TODO could use a different way to grab verts?
-                const vertices = this.geometry.buffers[0].data;
+                //const vertices = this.geometry.buffers[0].data;
+                const vertices = this.verticesBuffer.data
                 // TODO benchmark check for attribute size..
-                if (
-                    this.shader.batchable
-                    && this.drawMode === DRAW_MODES.TRIANGLES
-                    && vertices.length < Mesh.BATCHABLE_SIZE * 2
+                if ( true
+                    //this.shader.batchable
+                    //this.drawMode === PIXI.DRAW_MODES.TRIANGLES
+                    //&& vertices.length < Mesh.BATCHABLE_SIZE * 2
                 )
                 {
                     this._renderToBatch(renderer);
